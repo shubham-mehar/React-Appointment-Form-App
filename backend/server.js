@@ -9,17 +9,28 @@ config({ path:"./config.env" })
 app.use(cors())
 app.use(express.json());
 
-mongoose.connect("process.env.MONGODB_URI",
+mongoose.connect(process.env.MONGO_URI,
     { dbName: "appointmentapi" }).then(() => console.log("Database Connected!"))
     .catch((e) => console.log(e));
 
-const schema = new mongoose.Schema({ name: String, email: String, phone: String, date: Date });
+const schema = new mongoose.Schema(
+    { 
+        name:  { type: String, required: true }, 
+        email: { type: String, required: true }, 
+        phone: { type: String, required: true }, 
+        date:  { type: Date, required: true } 
+    }
+);
 const Appointment = mongoose.model("Appointment", schema);
-
 
 app.post("/appointments", async (req, res) => {
     try {
         const { name, email, phone, date } = req.body;
+        
+        if (!name || !email || !phone || !date) {
+            throw new Error("Missing required field(s)");
+          }
+
         await Appointment.create({ name, email, phone, date });
 
         res.status(201).json({
@@ -34,7 +45,6 @@ app.post("/appointments", async (req, res) => {
         });
     }
 });
-
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);

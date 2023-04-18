@@ -10,15 +10,18 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!name || !email || !phone || !date) {
+            alert("Please fill in all required fields!");
+            return;
+        }
 
         try {
-            const response = await axios.post("http://localhost:5050/appointments", {
+            await axios.post("http://localhost:31240/appointments", {
                 name,
                 email,
                 phone,
                 date,
             });
-            console.log(response);
             alert("Appointment saved successfully!");
         } catch (error) {
             console.error(error);
