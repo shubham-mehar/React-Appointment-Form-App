@@ -15,7 +15,7 @@ function App() {
             return;
         }
         try {
-            await axios.post("http://localhost:31240/appointments", {
+            await axios.post("https://appointment-form-backend.onrender.com/appointments", {
                 name,
                 email,
                 phone,
@@ -26,6 +26,11 @@ function App() {
             console.error(error);
             alert("Error saving appointment");
         }
+        setName("");
+        setEmail("");
+        setPhone("");
+        setDate("");
+
     };
 
     return (
