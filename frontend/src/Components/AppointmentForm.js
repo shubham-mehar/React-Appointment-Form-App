@@ -14,7 +14,6 @@ function App() {
             alert("Please fill in all required fields!");
             return;
         }
-
         try {
             await axios.post("http://localhost:31240/appointments", {
                 name,

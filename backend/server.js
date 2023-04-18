@@ -23,6 +23,10 @@ const schema = new mongoose.Schema(
 );
 const Appointment = mongoose.model("Appointment", schema);
 
+app.get("/", (req, res) => {
+    res.send("API is Working!") 
+});
+
 app.post("/appointments", async (req, res) => {
     try {
         const { name, email, phone, date } = req.body;
